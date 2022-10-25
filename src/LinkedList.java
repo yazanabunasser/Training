@@ -2,6 +2,7 @@
 
 public class LinkedList {
     Node head;
+    int size = 1;
 
     static class Node {
 
@@ -24,6 +25,7 @@ public class LinkedList {
 
         if (list.head == null) {
             list.head = new_node;
+            list.size ++;
         }
         else {
 
@@ -33,6 +35,7 @@ public class LinkedList {
             }
 
             last.next = new_node;
+            list.size ++;
         }
 
         return list;
@@ -40,6 +43,7 @@ public class LinkedList {
 
     public static void printList(LinkedList list)
     {
+
         Node currNode = list.head;
 
         System.out.print("\nLinkedList: ");
@@ -50,6 +54,7 @@ public class LinkedList {
             currNode = currNode.next;
         }
         System.out.println("\n");
+        System.out.println(list.size- 1  + " Size of list \n");
     }
 
     public static LinkedList deleteByKey(LinkedList list,
@@ -128,6 +133,45 @@ public class LinkedList {
 
         return list;
     }
+    public static void printMiddle(LinkedList list)
+    {
+        if (list.head != null) {
+            Node temp = list.head;
+
+            int middleLength = midOflist(list) -1;
+            while (middleLength != 0) {
+                temp = temp.next;
+                middleLength--;
+            }
+            System.out.print("The middle element is ["
+                    + temp.data + "]");
+            System.out.println();
+        }
+    }
+
+    public static void reverse(LinkedList list)
+    {
+        Node prev = null;
+        Node current = list.head;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        list.head = prev;
+    }
+    public static int midOflist(LinkedList list){
+        int mid = 0;
+        int num = (list.size-1) / 2;
+        if(list.size % 2 ==0){
+            mid = num + 1;
+        }else{
+             mid = num;
+        }
+        return mid;
+    }
 
     public static void main(String[] args)
     {
@@ -136,37 +180,45 @@ public class LinkedList {
         list = insert(list, 1);
         list = insert(list, 2);
         list = insert(list, 3);
-        list = insert(list, 4);
-        list = insert(list, 5);
+        list = insert(list, 44);
+        list = insert(list, 55);
         list = insert(list, 6);
         list = insert(list, 7);
         list = insert(list, 8);
+        list = insert(list, 9);
+        list = insert(list, 912);
 
 
         printList(list);
-
-        deleteByKey(list, 1);
-
+        reverse(list);
         printList(list);
-
-        deleteByKey(list, 4);
-
-        printList(list);
-
-        deleteByKey(list, 10);
-
-        printList(list);
-
-        deleteAtPosition(list, 0);
-
-        printList(list);
-
-        deleteAtPosition(list, 2);
-
-        printList(list);
-
-        deleteAtPosition(list, 10);
-
-        printList(list);
+        printMiddle(list);
     }
-}
+
+
+
+//        deleteByKey(list, 1);
+//
+//        printList(list);
+//
+//        deleteByKey(list, 4);
+//
+//        printList(list);
+//
+//        deleteByKey(list, 10);
+//
+//        printList(list);
+//
+//        deleteAtPosition(list, 0);
+//
+//        printList(list);
+//
+//        deleteAtPosition(list, 2);
+//
+//        printList(list);
+//
+//        deleteAtPosition(list, 10);
+//
+//        printList(list);
+    }
+
