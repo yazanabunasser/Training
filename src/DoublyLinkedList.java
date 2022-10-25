@@ -10,7 +10,7 @@ public class DoublyLinkedList {
         }
     }
 
-    int size = 0;
+    int size = 1;
 
     Node head = null;
     Node tail = null;
@@ -46,11 +46,83 @@ public class DoublyLinkedList {
             System.out.print(current.data + " ");
             current = current.next;
         }
+        System.out.println("\n" + list.size + " size of list");
         System.out.println("");
 
 
         return list;
     }
+    public static DoublyLinkedList deleteByKey(DoublyLinkedList list , int key){
+        Node currNode = list.head, temp = null;
+
+        if (currNode != null && currNode.data == key){
+            list.head = currNode.next;
+            list.head.next = currNode.next.next;
+            currNode = null;
+            list.head.prev = null;
+            System.out.println(key + " found and deleted11");
+            list.size--;
+            return list;
+        }
+        while (currNode != null && currNode.data != key){
+
+            currNode = list.head.next;
+            currNode.prev = list.head;
+        }
+        if (currNode != null){
+            temp = currNode.next;
+            list.head.next = temp;
+            temp.prev = list.head;
+            System.out.println(key + " found and deleted2");
+            list.size--;
+
+        }
+        if (currNode == null) {
+            System.out.println(key + " not found");
+        }
+
+        return list;
+    }
+    public static int midOfDoublelist(DoublyLinkedList list){
+        int mid = 0;
+        int num = (list.size-1) / 2;
+        if(list.size % 2 ==0){
+            mid = num + 1;
+        }else{
+            mid = num;
+        }
+        return mid;
+    }
+    public static void reverse(DoublyLinkedList list)
+    {
+        Node prev = null;
+        Node current = list.head;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        list.head = prev;
+    }
+    public static void printMiddleDouble(DoublyLinkedList list)
+    {
+        if (list.head != null) {
+            Node temp = list.head;
+
+            int middleLength = midOfDoublelist(list) ;
+            while (middleLength != 0) {
+                temp = temp.next;
+                middleLength--;
+            }
+            System.out.print("The middle element is ["
+                    + temp.data + "]");
+            System.out.println();
+        }
+    }
+
+
 
 
     public static void main(String[] args){
@@ -59,12 +131,20 @@ public class DoublyLinkedList {
         list.insert(list , 33);
         list.insert(list , 2);
         list.insert(list , 42);
-        list.insert(list , 2);
+        list.insert(list , 7);
+        list.insert(list , 99);
 
         list.printList(list);
-        System.out.println(list.size);
 
+       deleteByKey(list, 33);
+       list.printList(list);
+
+        reverse(list);
         list.printList(list);
+        printMiddleDouble(list);
+
+
+
     }
 
 
