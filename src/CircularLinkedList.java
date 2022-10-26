@@ -1,103 +1,108 @@
 import java.lang.invoke.LambdaConversionException;
 
 public class CircularLinkedList {
+    Node head;
+    Node tail;
+    int size = 1;
+
     static class Node {
-    int data;
-    Node next;
-};
 
-static Node addToEmpty(Node last, int data)
+        int data;
+       Node next;
+
+        Node(int d)
         {
-        // This function is only for empty list
+            data = d;
+            next = null;
+        }
+    }
+    public static CircularLinkedList insert(CircularLinkedList list, int data) {
 
-        if (last != null)
-        return last;
-        // Creating a node dynamically
+        Node new_node = new Node(data);
+        new_node.next = null;
 
-        Node temp = new Node();
-        // Assigning the data.
+        if (list.head == null) {
+            list.head = new_node;
+            list.head.next = list.head;
+            list.size ++;
+        }
+        else {
 
-        temp.data = data;
-        last = temp;
-        // Creating the link.
+            Node last = list.head;
+            while (last.next != list.head) {
+                last = last.next;
+            }
 
-        last.next = last;
-        return last;
+            last.next = new_node;
+            new_node.next = list.head;
+            list.size ++;
         }
 
-static Node addBegin(Node last, int data)
-        {
-        if (last == null)
-        return addToEmpty(last, data);
+        return list;
+    }
 
-        Node temp = new Node();
-        temp.data = data;
-        temp.next = last.next;
-        last.next = temp;
-        return last;
+    public static void printList(CircularLinkedList list)
+    {
+
+        int i = 1;
+        Node currNode = list.head;
+
+        System.out.print("\nLinkedList: ");
+
+        while (currNode != null && i < list.size) {
+            System.out.print(currNode.data + " ");
+
+            currNode = currNode.next;
+            i++;
+        }
+        System.out.println("\n");
+        System.out.println(list.size- 1  + " Size of list \n");
+    }
+
+
+    public static CircularLinkedList deleteCircularByKey(CircularLinkedList list, int key) {
+
+
+       Node currNode = list.head, prev= null;
+
+
+        if (currNode != null && currNode.data == key) {
+            list.head = currNode.next;
+            list.head.next = currNode.next.next;
+            currNode = null;
+            System.out.println(key + " found and deleted11");
+            list.size--;
+            return list;
         }
 
-static Node addEnd(Node last, int data)
-        {
-        if (last == null)
-        return addToEmpty(last, data);
+        while (currNode != null && currNode.data != key) {
 
-        Node temp = new Node();
-        temp.data = data;
-        temp.next = last.next;
-        last.next = temp;
-        last = temp;
-        return last;
+            prev = currNode;
+            currNode = currNode.next;
         }
 
-static Node addAfter(Node last, int data, int item)
-        {
-        if (last == null)
-        return null;
+        if (currNode != null) {
 
-        Node temp, p;
-        p = last.next;
-        do {
-        if (p.data == item) {
-        temp = new Node();
-        temp.data = data;
-        temp.next = p.next;
-        p.next = temp;
-        if (p == last)
-        last = temp;
-        return last;
-        }
-        p = p.next;
-        } while (p != last.next);
+            prev.next = currNode.next;
 
-        System.out.println(item
-        + " not present in the list.");
-        return last;
+            System.out.println(key + " found and deleted");
         }
 
-static void traverse(Node last)
-        {
-        Node p;
-        // If list is empty, return.
-
-        if (last == null) {
-        System.out.println("List is empty.");
-        return;
+        if (currNode == null) {
+            System.out.println(key + " not found");
         }
-        // Pointing to first Node of the list.
-
-        p = last.next;
-        // Traversing the list.
-
-        do {
-        System.out.print(p.data + " ");
-        p = p.next;
-        } while (p != last.next);
+        Node temp = list.head;
+        while (temp.next != null ){
+            temp = temp.next;
         }
-    Node reverse(Node node)
+
+
+        return list;
+    }
+    public static void reverse(CircularLinkedList list)
     {
         Node prev = null;
-        Node current = node;
+        Node current = list.head;
         Node next = null;
         while (current != null) {
             next = current.next;
@@ -105,23 +110,63 @@ static void traverse(Node last)
             prev = current;
             current = next;
         }
-        node = prev;
-        return node;
+        list.head = prev.next;
     }
-
-    // prints content of double linked list
-    void printList(Node node)
+    public static int midOfCircularlist(CircularLinkedList list){
+        int mid = 0;
+        int num = (list.size-1) / 2;
+        if(list.size % 2 ==0){
+            mid = num + 1;
+        }else{
+            mid = num;
+        }
+        return mid;
+    }
+    public static void printMiddleOfCircular(CircularLinkedList list)
     {
-        while (node != null) {
-            System.out.print(node.data + " ");
-            node = node.next;
+        if (list.head != null) {
+            Node temp = list.head;
+
+            int middleLength = midOfCircularlist(list) -1;
+            while (middleLength != 0) {
+                temp = temp.next;
+                middleLength--;
+            }
+            System.out.print("The middle element is ["
+                    + temp.data + "]");
+            System.out.println();
         }
     }
 
-// Driver code
-public static void main(String[] args){
+    public static void main(String[] args)
+    {
+        CircularLinkedList list = new CircularLinkedList();
+
+        list = insert(list, 1);
+        list = insert(list, 2);
+        list = insert(list, 3);
+        list = insert(list, 44);
+        list = insert(list, 55);
+        list = insert(list, 6);
+        list = insert(list, 7);
+        list = insert(list, 8);
+        list = insert(list, 9);
+        list = insert(list, 912);
+
+
+        printList(list);
+        reverse(list);
+        printList(list);
+        printMiddleOfCircular(list);
+
+//        reverse(list);
+//        printList(list);
+//        printMiddle(list);
+    }
+
+
 }
 
 
-    }
+
 
