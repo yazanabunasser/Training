@@ -62,38 +62,30 @@ public class CircularLinkedList {
 
     public static CircularLinkedList deleteCircularByKey(CircularLinkedList list, int key) {
 
+        Node prev = list.head;
+        Node current = list.head;
+        Node next = current.next;
+        System.out.println(prev.data);
+        if(current.data == key){
+            while (next.next != prev){
+                current = next;
+                next = current.next;
+            }
+            next.next = list.head.next;
+            list.head = list.head.next;
 
-       Node currNode = list.head, prev= null;
+            list.size --;
+            System.out.println(list.head.data);
 
-
-        if (currNode != null && currNode.data == key) {
-            list.head = currNode.next;
-            list.head.next = currNode.next.next;
-            currNode = null;
-            System.out.println(key + " found and deleted11");
-            list.size--;
-            return list;
         }
-
-        while (currNode != null && currNode.data != key) {
-
-            prev = currNode;
-            currNode = currNode.next;
-        }
-
-        if (currNode != null) {
-
-            prev.next = currNode.next;
-
-            System.out.println(key + " found and deleted");
-        }
-
-        if (currNode == null) {
-            System.out.println(key + " not found");
-        }
-        Node temp = list.head;
-        while (temp.next != null ){
-            temp = temp.next;
+        else {
+            while (current.data != key){
+                prev = current;
+                current = next;
+                next = current.next;
+            }
+            prev.next = next;
+            list.size --;
         }
 
 
@@ -155,9 +147,13 @@ public class CircularLinkedList {
 
 
         printList(list);
-        reverse(list);
-        printList(list);
+//        reverse(list);
+//        printList(list);
         printMiddleOfCircular(list);
+        deleteCircularByKey(list , 1);
+        printList(list);
+
+
 
 //        reverse(list);
 //        printList(list);
