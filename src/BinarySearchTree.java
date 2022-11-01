@@ -100,6 +100,36 @@ public class BinarySearchTree {
 
     }
 
+    public void inorder() {
+        inorder(root);
+    }
+
+    public void inorder(Node root) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left);
+        System.out.print(root.data + " ");
+        inorder(root.right);
+
+    }
+
+
+    public void postorder() {
+        postorder(root);
+    }
+    public void postorder(Node root) {
+        if (root == null) {
+            return;
+        }
+        postorder(root.left);
+        postorder(root.right);
+        System.out.print(root.data + " ");
+
+
+
+    }
+
 
 
     public static void main(String[] args){
@@ -110,8 +140,8 @@ public class BinarySearchTree {
         bt.insert(3);
         bt.insert(5);
 //        bt.preorder();
-        bt.delete(new Node(4));
-        bt.preorder();
+//        bt.delete(new Node(4));
+        bt.inorder();
         System.out.println("\n" + bt.search(3));
     }
 }
